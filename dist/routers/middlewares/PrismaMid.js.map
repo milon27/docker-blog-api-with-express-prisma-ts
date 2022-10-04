@@ -1,1 +1,0 @@
-{"version":3,"file":"PrismaMid.js","sourceRoot":"","sources":["../../../src/routers/middlewares/PrismaMid.ts"],"names":[],"mappings":";;AACA,2CAA6C;AAE7C,MAAM,MAAM,GAAG,IAAI,qBAAY,EAAE,CAAA;AAEjC,MAAM,SAAS,GAAG,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB,EAAE,EAAE;IAClE,GAAG,CAAC,MAAM,GAAG,MAAM,CAAA;IACnB,IAAI,EAAE,CAAA;AACV,CAAC,CAAA;AACD,kBAAe,SAAS,CAAA"}
