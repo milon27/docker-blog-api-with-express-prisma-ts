@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  db:
+    container_name: postgres
+    image: postgres:12.12
+    restart: always
+    environment:
+      - POSTGRES_USER=milon27
+      - POSTGRES_PASSWORD=myPassWord
+      - POSTGRES_DB=my_db
+    ports:
+      - 5432:5432
+    volumes:
+      - db_vol:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+#volumes(root label)
+volumes:
+  db_vol: {}
