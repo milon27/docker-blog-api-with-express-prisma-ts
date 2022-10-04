@@ -6,6 +6,7 @@ import ErrorsMid from './routers/middlewares/ErrorsMid'
 import PrismaMid from './routers/middlewares/PrismaMid'
 import AuthRouter from './routers/AuthRouter'
 import AgentMid from './routers/middlewares/AgentMid'
+import TestRouter from './routers/TestRouter'
 
 //init
 dotenv.config()
@@ -21,6 +22,7 @@ app.use(PrismaMid)
 
 //routers
 app.get('/', (req, res) => res.send(`Running app in ${process.env.NODE_ENV}... 🚀`))
+app.use('/test', TestRouter)
 app.use('/auth', AuthRouter)
 app.use(ErrorsMid)
 

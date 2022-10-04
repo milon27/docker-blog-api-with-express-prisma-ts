@@ -1,6 +1,6 @@
-version: '3.4'
+version: '3.9'
 services:
-  db:
+  postgres:
     container_name: postgres
     image: postgres:12.12
     restart: always
@@ -18,6 +18,18 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    depends_on:
+      - postgres
+      - adminer
+    ports:
+      - 2727:2727
 
 #volumes(root label)
 volumes:

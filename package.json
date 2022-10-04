@@ -4,13 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "rm -r dist/* &&  tsc",
-    "clean": "rm -r dist/*",
-    "start": "node dist/server.js",
+    "build": "npm run clean &&  tsc",
+    "clean": "rm -rf dist/*",
+    "start": "node dist/app.js",
     "p-init": "prisma init",
-    "p-mg": "prisma migrate dev --name init && prisma generate",
-    "p-mg-prod": "prisma migrate deploy",
+    "p-mg": "prisma migrate dev --name init && npm run p-gen",
     "p-gen": "prisma generate",
+    "p-mg-prod": "prisma migrate deploy",
     "seed": "ts-node prisma/seed.ts",
     "dev": "nodemon src/app.ts"
   },
