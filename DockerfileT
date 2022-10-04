@@ -1,3 +1,0 @@
-FROM node:16.3.0-alpine as build
-
-CMD [ "echo"," how are you milon!!!" ]
