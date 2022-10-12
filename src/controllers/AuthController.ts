@@ -4,17 +4,12 @@ import bcryptjs from 'bcryptjs'
 import Define from "../utils/Define"
 import MyResponse from "../models/MyResponse"
 import Helper from "../utils/Helper"
+import { LoginDto, SignUpDto } from "../models/dto/AuthDto"
 
 const AuthController = {
     signUp: async (req: Request, res: Response) => {
         try {
-            const { email, name, password } = req.body
-            if (!email || !password || !name) {
-                throw new Error("Enter name,email,password")
-            }
-            if (password.length < 6) {
-                throw new Error("Password Length Should be More than 5 character.")
-            }
+            const { email, name, password } = req.body as SignUpDto
             //get hash pass & save new user into db
             const hashpass = await bcryptjs.hash(password, await bcryptjs.genSalt(10))
 
@@ -31,19 +26,15 @@ const AuthController = {
             const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Helper.getSessionCookieOption(req.agent))
-            res.status(200).json(MyResponse<Users>("user created successfully", user))
+            res.status(200).json(MyResponse<Users>(false, "user created successfully", user))
         } catch (e) {
             console.log("auth sign up: ", e);
-            res.status(500).json(MyResponse((e as Error).message))
+            res.status(500).json(MyResponse(true, (e as Error).message, undefined))
         }
     },
     login: async (req: Request, res: Response) => {
         try {
-            const { email, password } = req.body
-            //validatioin
-            if (!email || !password) {
-                throw new Error("Enter email,password")
-            }
+            const { email, password } = req.body as LoginDto
             //check user is available or not in db
             const u = await req.prisma.users.findUnique({
                 where: {
@@ -63,10 +54,10 @@ const AuthController = {
             const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Helper.getSessionCookieOption(req.agent))
-            res.status(200).json(MyResponse<Users>("user loggedin successfully", user))
+            res.status(200).json(MyResponse<Users>(false, "user loggedin successfully", user))
         } catch (e) {
             console.log("auth login: ", e);
-            res.status(500).json(MyResponse((e as Error).message))
+            res.status(500).json(MyResponse(true, (e as Error).message, undefined))
         }
     },
     logout: (req: Request, res: Response) => {
@@ -76,7 +67,7 @@ const AuthController = {
             sameSite: 'none',//lax or none
             expires: new Date(0)
         })
-        res.status(200).json(MyResponse("user logged out", true))
+        res.status(200).json(MyResponse(false, "user logged out", true))
     },
     getLoggedInUser: async (req: Request, res: Response) => {
         try {
@@ -90,10 +81,10 @@ const AuthController = {
                 throw new Error("No User Found!")
             }
             const user = u!
-            res.status(200).json(MyResponse<Users>("got user successfully", user))
+            res.status(200).json(MyResponse<Users>(false, "got user successfully", user))
         } catch (e) {
             console.log("auth getUserById: ", e);
-            res.status(500).json(MyResponse((e as Error).message))
+            res.status(500).json(MyResponse(true, (e as Error).message, undefined))
         }
     },
 }

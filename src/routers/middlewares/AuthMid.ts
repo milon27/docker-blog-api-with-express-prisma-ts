@@ -16,7 +16,7 @@ const AuthMid = (req: Request, res: Response, next: NextFunction) => {
         req.userId = uid
         next()
     } catch (e: any) {
-        res.status(401).json(MyResponse(e.message))
+        res.status(401).json(MyResponse(true, e.message))
     }
 }
 export default AuthMid

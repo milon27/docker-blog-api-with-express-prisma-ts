@@ -2,11 +2,11 @@ import { Response, Request, NextFunction } from 'express'
 import MyResponse from '../../models/MyResponse'
 
 const NotFoundMid = (req: Request, res: Response, next: NextFunction) => {
-    res.status(404).send(MyResponse("Route Not Found"))
+    res.status(404).send(MyResponse(true, "Route Not Found"))
 }
 
 const ErrorMid = (err: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).send(MyResponse(err.message))
+    res.status(500).send(MyResponse(true, err.message))
 }
 
 const ErrorsMid = [NotFoundMid, ErrorMid]

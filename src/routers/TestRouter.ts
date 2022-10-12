@@ -9,10 +9,10 @@ const TestRouter = Router()
 TestRouter.get('/db', async (req, res) => {
     try {
         const result = await req.prisma.$queryRaw`select now()`
-        res.status(200).send(MyResponse("db connected", result))
+        res.status(200).send(MyResponse(false, "db connected", result))
     } catch (e) {
         console.log(e);
-        res.status(500).send(MyResponse(`db not connected ${(e as Error).message}`))
+        res.status(500).send(MyResponse(true, `db not connected ${(e as Error).message}`, undefined))
     }
 })
 

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import AuthController from "../controllers/AuthController";
+import { LoginDtoSchema, SignUpDtoSchema } from "../models/dto/AuthDto";
 import AuthMid from "./middlewares/AuthMid";
+import ValidateMid from "./middlewares/ValidateMid";
 const AuthRouter = Router()
 
 /**
@@ -8,14 +10,14 @@ const AuthRouter = Router()
  * @param { email:String, name:String, password:String } = req.body
  * @post http://localhost:2727/auth/signup
  */
-AuthRouter.post('/signup', AuthController.signUp)
+AuthRouter.post('/signup', ValidateMid(SignUpDtoSchema), AuthController.signUp)
 
 /**
  * @description login user
  * @param { email:String, password:String } = req.body
  * @post http://localhost:2727/auth/login
  */
-AuthRouter.post('/login', AuthController.login)
+AuthRouter.post('/login', ValidateMid(LoginDtoSchema), AuthController.login)
 
 /**
  * @description logout user

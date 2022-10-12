@@ -1,6 +1,6 @@
-// if data is undefined then there is error in response
-const MyResponse = <T>(message: string, response?: T) => {
+const MyResponse = <T>(error: boolean = false, message: string, response?: T) => {
     return {
+        error,
         message,
         response
     }
