@@ -6,10 +6,10 @@
 # How To Run
 
 - **Make sure you have docker installed**
-## postgresql and api will run on docker
+### run app locally and db on docker
 ```bash
 # run db
-docker compose up -d
+docker compose -f docker-compose.dev.yml up -d
 # install dependency
 pnpm install
 # apply migration and generate prisma client
@@ -21,7 +21,12 @@ npm run dev
 
 ```
 
-## Used Tech Stack
+### run both app and db on docker
+```
+docker compose up -d
+```
+
+### Used Tech Stack
 **Backend**
 - Express JS
 - Prisma
