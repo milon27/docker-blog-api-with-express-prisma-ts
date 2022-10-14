@@ -18,7 +18,7 @@ model User {
     bio          String   @default("I am a CJ")
     password     String
     phone        String   @db.VarChar(25)
-    avatar       String
+    avatar       String   @default("https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png")
     address      String
     isVerified   Boolean  @default(false)
     lastLoggedIn DateTime @default(now())

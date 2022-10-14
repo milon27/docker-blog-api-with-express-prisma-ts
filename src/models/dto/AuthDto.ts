@@ -23,9 +23,9 @@ export interface SignUpDto {
 }
 
 export const SignUpDtoSchema = Joi.object<SignUpDto>({
-    firstName: Joi.string().min(3).regex(new RegExp("[a-zA-Z0-9\s_]+")).required(),
-    lastName: Joi.string().min(3).regex(new RegExp("[a-zA-Z0-9\s_]+")).required(),
-    userName: Joi.string().min(3).alphanum().required(),
+    firstName: Joi.string().min(2).regex(new RegExp("[a-zA-Z0-9\s_]+")).required(),
+    lastName: Joi.string().min(2).regex(new RegExp("[a-zA-Z0-9\s_]+")).required(),
+    userName: Joi.string().min(3).regex(new RegExp("[a-zA-Z0-9_]+")).required(),
     email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'id'] } }).required(),
     password: Joi.string().min(6).required(),
     avatar: Joi.string().default("#"),
