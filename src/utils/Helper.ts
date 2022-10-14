@@ -1,5 +1,7 @@
-import { CookieOptions } from 'express'
+import { Prisma } from '@prisma/client'
+import { CookieOptions, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import MyResponse from '../models/MyResponse'
 
 const Helper = {
     getJWTtoken: (uid: string) => {
@@ -52,6 +54,15 @@ const Helper = {
                 //maxAge: 1 * 24 * 60 * 60 * 1000//
             } as CookieOptions
         }
+    },
+    sendErrorResponse: (res: Response, e: unknown) => {
+        if (e instanceof Prisma.PrismaClientValidationError) {
+            return res.status(500).json(MyResponse(true, "Something went wrong", undefined))
+        }
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            return res.status(500).json(MyResponse(true, (e as any)?.meta?.cause || `${e.message}, Error Code: ${(e as any)?.code}`, undefined))
+        }
+        res.status(500).json(MyResponse(true, (e as Error).message, undefined))
     }
 
 }

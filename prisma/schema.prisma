@@ -9,10 +9,93 @@ generator client {
 
 // define model
 
-model Users {
-    id        String   @id @default(cuid())
-    name      String   @db.VarChar(100)
-    email     String   @unique @db.VarChar(155)
-    password  String
-    createdAt DateTime @default(now())
+model User {
+    id           String   @id @default(cuid())
+    email        String   @unique @db.VarChar(155)
+    userName     String   @unique @db.VarChar(155)
+    firstName    String   @db.VarChar(100)
+    lastName     String   @db.VarChar(100)
+    bio          String   @default("I am a CJ")
+    password     String
+    phone        String   @db.VarChar(25)
+    avatar       String
+    address      String
+    isVerified   Boolean  @default(false)
+    lastLoggedIn DateTime @default(now())
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    role      Role   @relation(fields: [roleTitle], references: [title])
+    roleTitle String @db.VarChar(50)
+
+    followers User[] @relation("UserFollows")
+    following User[] @relation("UserFollows")
+    posts     Post[]
+}
+
+model Role {
+    title String @id @unique @db.VarChar(50)
+    desc  String @default("Description about the role.")
+    user  User[]
+}
+
+//Admin, CJ, J, Writter, Reporter
+
+model Post {
+    id         String     @id @default(cuid())
+    title      String?
+    content    String?    @db.Text //no hash tags
+    isFeatured Boolean    @default(false)
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
+    // 1 ta video, multiple image
+    video      String?
+    tags       Tag[]
+    images     Image[]
+    reactions  Reaction[]
+    comments   Comment[]
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+}
+
+model Image {
+    id     String @id @default(cuid())
+    url    String @db.VarChar(50)
+    post   Post   @relation(fields: [postId], references: [id])
+    postId String
+}
+
+model Tag {
+    id    String @id @default(cuid())
+    title String @db.VarChar(50)
+    posts Post[]
+}
+
+model Reaction {
+    id        String       @id @default(cuid())
+    type      ReactionType @default(like)
+    post      Post?        @relation(fields: [postId], references: [id])
+    postId    String?
+    comment   Comment?     @relation(fields: [commentId], references: [id])
+    commentId String?
+}
+
+enum ReactionType {
+    like
+    love
+    haha
+    wow
+    sad
+    angry
+}
+
+// we will work on (share-share in other socials or own profile????)
+model Comment {
+    id        String     @id @default(cuid())
+    content   String
+    posts     Post       @relation(fields: [postId], references: [id])
+    postId    String
+    parentId  String? //parent comment id
+    reactions Reaction[]
 }

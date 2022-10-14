@@ -7,6 +7,8 @@ import PrismaMid from './routers/middlewares/PrismaMid'
 import AuthRouter from './routers/AuthRouter'
 import AgentMid from './routers/middlewares/AgentMid'
 import TestRouter from './routers/TestRouter'
+import RoleRouter from './routers/RoleRouter'
+import AuthMid from './routers/middlewares/AuthMid'
 
 //init
 dotenv.config()
@@ -24,6 +26,7 @@ app.use(PrismaMid)
 app.get('/', (req, res) => res.send(`Running app in ${process.env.NODE_ENV}... 🚀`))
 app.use('/test', TestRouter)
 app.use('/auth', AuthRouter)
+app.use('/role', AuthMid, RoleRouter)
 app.use(ErrorsMid)
 
 const port = process.env.PORT || 2828

@@ -7,14 +7,12 @@ const AuthRouter = Router()
 
 /**
  * @description create a new user then login user
- * @param { email:String, name:String, password:String } = req.body
  * @post http://localhost:2727/auth/signup
  */
 AuthRouter.post('/signup', ValidateMid(SignUpDtoSchema), AuthController.signUp)
 
 /**
  * @description login user
- * @param { email:String, password:String } = req.body
  * @post http://localhost:2727/auth/login
  */
 AuthRouter.post('/login', ValidateMid(LoginDtoSchema), AuthController.login)
