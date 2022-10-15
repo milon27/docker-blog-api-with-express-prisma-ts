@@ -13,6 +13,7 @@ const RoleController = {
             if (isNaN(skip)) {
                 throw new Error("Enter Valid Page Number!")
             }
+            const count = await req.prisma.role.count()
             const list = await req.prisma.role.findMany({
                 skip: skip,
                 take: Define.PAGE_SIZE,
@@ -20,7 +21,7 @@ const RoleController = {
                     title: "asc"
                 }
             })
-            res.status(200).json(MyResponse<Role[]>(false, "get data successfully", list))
+            res.status(200).json(MyResponse<Role[]>(false, "get data successfully", list, Math.ceil(count / Define.PAGE_SIZE)))
         } catch (e) {
             console.log("getAllByPaginate: ", e)
             Helper.sendErrorResponse(res, e)
