@@ -9,7 +9,7 @@ import { LoginDto, SignUpDto } from "../models/dto/AuthDto"
 const AuthController = {
     signUp: async (req: Request, res: Response) => {
         try {
-            const { firstName, lastName, userName, email, password, avatar, role, address, phone } = req.body as SignUpDto
+            const { firstName, lastName, userName, email, password, avatar, bio, role, address, phone, isVerified } = req.body as SignUpDto
             //get hash pass & save new user into db
             const hashpass = await bcryptjs.hash(password, await bcryptjs.genSalt(10))
 
@@ -22,6 +22,8 @@ const AuthController = {
                     email: email.toLowerCase().trim(),
                     password: hashpass,
                     avatar,
+                    bio,
+                    isVerified,
                     role: {
                         connect: {
                             title: role
@@ -36,7 +38,7 @@ const AuthController = {
             const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Helper.getSessionCookieOption(req.agent))
-            res.status(200).json(MyResponse<User>(false, "user created successfully", user))
+            res.status(200).json(MyResponse(false, "user created successfully", { ...user, token }))
         } catch (e) {
             console.log("auth sign up: ", JSON.stringify(e, null, 2));
             Helper.sendErrorResponse(res, e)
@@ -64,7 +66,7 @@ const AuthController = {
             const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Helper.getSessionCookieOption(req.agent))
-            res.status(200).json(MyResponse<User>(false, "user loggedin successfully", user))
+            res.status(200).json(MyResponse(false, "user loggedin successfully", { ...user, token }))
         } catch (e) {
             console.log("auth login: ", e);
             Helper.sendErrorResponse(res, e)

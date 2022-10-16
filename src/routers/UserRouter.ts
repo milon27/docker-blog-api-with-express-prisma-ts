@@ -1,29 +1,38 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
+import { SignUpDtoSchema, UserUpdateDtoSchema } from "../models/dto/AuthDto";
+import { RoleUpdateDtoSchema } from "../models/dto/RoleDto";
+import ValidateMid from "./middlewares/ValidateMid";
 
 const UserRouter = Router()
 
 /**
- * @description get all User with paginate
- * @get http://localhost:2727/User/
+ * @description get all user with paginate
+ * @get http://localhost:2727/user/
  */
 UserRouter.get('/', UserController.getAllByPaginate)
 
 /**
- * @description create a new User
- * @post http://localhost:2727/User/
+ * @description get single user
+ * @get http://localhost:2727/user/:id
  */
-UserRouter.post('/', UserController.createUser)
+UserRouter.get('/:id', UserController.getSingleUser)
 
 /**
- * @description update a User
- * @put http://localhost:2727/User/:id
+ * @description create a new user
+ * @post http://localhost:2727/user/
  */
-UserRouter.put('/:id', UserController.updateUser)
+UserRouter.post('/', ValidateMid(SignUpDtoSchema), UserController.createUser)
 
 /**
- * @description delete a User
- * @delete http://localhost:2727/User/:id
+ * @description update a user
+ * @put http://localhost:2727/user/:id
+ */
+UserRouter.put('/:id', ValidateMid(UserUpdateDtoSchema), UserController.updateUser)
+
+/**
+ * @description delete a user
+ * @delete http://localhost:2727/user/:id
  */
 UserRouter.delete('/:id', UserController.deleteUser)
 

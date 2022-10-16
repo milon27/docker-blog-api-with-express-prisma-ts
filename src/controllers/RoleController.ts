@@ -27,6 +27,24 @@ const RoleController = {
             Helper.sendErrorResponse(res, e)
         }
     },
+    getSingleRole: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params
+
+            const item = await req.prisma.role.findFirst({
+                where: {
+                    title: id
+                }
+            })
+            if (!item) {
+                throw new Error("No Role Found!")
+            }
+            res.status(200).json(MyResponse<Role>(false, "get data successfully", item))
+        } catch (e) {
+            console.log("getSingleRole: ", e)
+            Helper.sendErrorResponse(res, e)
+        }
+    },
     createRole: async (req: Request, res: Response) => {
         try {
             const { title, desc } = req.body as RoleDto

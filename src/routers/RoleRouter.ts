@@ -12,6 +12,12 @@ const RoleRouter = Router()
 RoleRouter.get('/', RoleController.getAllByPaginate)
 
 /**
+ * @description get single role
+ * @get http://localhost:2727/role/:id
+ */
+RoleRouter.get('/:id', RoleController.getSingleRole)
+
+/**
  * @description create a new role
  * @post http://localhost:2727/role/
  */

@@ -33,6 +33,7 @@ const doSeed = async () => {
             lastName: "LName",
             userName: "admin",
             email: "admin@g.com",
+            isVerified: false,
             password: "$2a$10$p6/G6J/0szH/nM7j2L095OVVOtl3aPSpRjdF.Ma3sTZBMUnTt1siC",//1234567
             avatar: "#",
             role: {
